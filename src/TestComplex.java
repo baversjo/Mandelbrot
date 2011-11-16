@@ -34,5 +34,11 @@ public class TestComplex {
 		assertEquals("multiplication re",-5,c.getRe(),0);
 		assertEquals("multiplication im",10,c.getIm(),0);
 	}
+	@Test
+	public void testMultiplicationSame(){
+		c.mul(c);
+		assertEquals("multiplication re",-7,c.getRe(),0);
+		assertEquals("multiplication im",24,c.getIm(),0);
+	}
 
 }

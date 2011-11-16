@@ -26,8 +26,11 @@ public class Complex {
 	/** Multiplicerar detta tal med det komplexa talet c */
 	public void mul(Complex c){
 		double re = this.re,
-			   im = this.im;
-		this.re = re*c.re - im*c.im;
-		this.im = re*c.im  + im*c.re;
+			   im = this.im,
+			   re2 = c.re,
+			   im2 = c.im;
+				
+		this.re = re*re2 - im*im2;
+		this.im = re*im2  + im*re2;
 	}
 }
