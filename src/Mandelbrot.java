@@ -13,7 +13,7 @@ public class Mandelbrot {
 		while (true) {
 			switch (gui.getCommand()) {
 				case MandelbrotGUI.RENDER:
-					gui.clearPlane();
+					gui.resetPlane();
 					g.render(gui);
 					rendered = true;
 					break;
