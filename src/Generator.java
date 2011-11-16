@@ -2,12 +2,33 @@ import java.awt.Color;
 import se.lth.cs.ptdc.fractal.MandelbrotGUI;
 
 public class Generator {
+	public static final int DEFAULT_ITERATIONS = 200;
+	
 	public Generator() { }
 	
 	public void render(MandelbrotGUI gui) {
 		gui.disableInput();
-		int width = gui.getWidth();
-		int height = gui.getHeight();
+		String extra = gui.getExtraText();
+		int iterations = DEFAULT_ITERATIONS;
+		if (!extra.equals("")) {
+			iterations = Integer.parseInt(gui.getExtraText());
+		}
+		Color[] colors = new Color[iterations];
+		for (int i = 0; i < colors.length; i++) {
+			int f = i + 50;
+			int[] c_tuple;
+			switch(i % 3){
+				case 0: c_tuple = new int[]{f, (int)f/2, (int)Math.sqrt(f)}; break;
+				case 1: c_tuple = new int[]{(int)Math.sqrt(f),f,(int)f/2}; break;
+				case 2: c_tuple = new int[]{(int)f/2,(int)Math.sqrt(f),f}; break;
+				default: c_tuple = new int[]{0,0,0};
+			}
+			colors[colors.length-i-1] = new Color(c_tuple[0],c_tuple[1],c_tuple[2]);
+		}
+		
+		int resolution = MandelbrotGUI.RESOLUTION_VERY_HIGH / gui.getResolution();
+		int width = gui.getWidth()/resolution;
+		int height = gui.getHeight()/resolution;
 		Complex[][] complex = mesh(gui.getMinimumReal(), gui.getMaximumReal(),
 								   gui.getMinimumImag(), gui.getMaximumImag(),
 								   width, height);
@@ -15,23 +36,26 @@ public class Generator {
 		Color[][] picture = new Color[height][width];
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				
-				if (complex[y][x].getAbs2() > 1) {
-					picture[y][x] = Color.white;
-				} else if (complex[y][x].getRe() >= 0 && complex[y][x].getIm() >= 0) {
-					picture[y][x] = Color.red;
-				} else if (complex[y][x].getRe() < 0 && complex[y][x].getIm() >= 0) {
-					picture[y][x] = Color.blue;
-				} else if (complex[y][x].getRe() >= 0 && complex[y][x].getIm() < 0) {
-					picture[y][x] = Color.green;
-				} else if (complex[y][x].getRe() < 0 && complex[y][x].getIm() < 0) {
-					picture[y][x] = Color.yellow;
+				Complex c = complex[y][x];
+				Complex z = new Complex(0,0);
+				Color color = Color.black;
+				for (int k = 0; k < iterations; k++) {
+					z.mul(z);
+					z.add(c);
+					if(z.getAbs2() > 2){
+						if (gui.getMode() == MandelbrotGUI.MODE_COLOR) {
+							color = colors[k];
+						} else {
+							color = Color.white;
+						}
+						break;
+					}
 				}
-				
+				picture[y][x] = color;
 			}
 		}
 		
-		gui.putData(picture, 1, 1);
+		gui.putData(picture, resolution, resolution);
 		gui.enableInput();
 	}
 	
