@@ -27,7 +27,7 @@ public class Complex {
 	public void mul(Complex c){
 		double re = this.re,
 			   im = this.im;
-		re = re*c.re - im*c.im;
-		im = re*c.im  + im*c.re;
+		this.re = re*c.re - im*c.im;
+		this.im = re*c.im  + im*c.re;
 	}
 }
