@@ -14,16 +14,20 @@ public class Complex {
 
 	/** Tar reda på talets absolutbelopp i kvadrat */
 	public double getAbs2(){
-		return 0.0; //TODO: implement
+		return Math.sqrt(re*re + im*im);
 	}
 
 	/** Adderar det komplexa talet c till detta tal */
 	public void add(Complex c){
-		//TODO: implement
+		re += c.re;
+		im += c.im;
 	}
 
 	/** Multiplicerar detta tal med det komplexa talet c */
 	public void mul(Complex c){
-		//TODO: implement
+		double re = this.re,
+			   im = this.im;
+		re = re*c.re - im*c.im;
+		im = re*c.im  + im*c.re;
 	}
 }
