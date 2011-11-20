@@ -20,7 +20,7 @@ public class TestComplex {
 	}
 	@Test
 	public void testAbsoluteValue(){
-		assertEquals("calculate ABS", 5, c.getAbs2(),0);
+		assertEquals("calculate ABS squared", 25, c.getAbs2(),0);
 	}
 	@Test
 	public void testAddition(){
