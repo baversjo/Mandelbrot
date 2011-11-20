@@ -42,7 +42,7 @@ public class Generator {
 				for (int k = 0; k < iterations; k++) {
 					z.mul(z);
 					z.add(c);
-					if(z.getAbs2() > 2){
+					if(z.getAbs2() > 4){
 						if (gui.getMode() == MandelbrotGUI.MODE_COLOR) {
 							color = colors[k];
 						} else {
