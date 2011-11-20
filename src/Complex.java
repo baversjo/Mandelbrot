@@ -1,4 +1,3 @@
-
 public class Complex {
 	private double re,im;
 	public Complex(double re, double im){
@@ -14,7 +13,7 @@ public class Complex {
 
 	/** Tar reda på talets absolutbelopp i kvadrat */
 	public double getAbs2(){
-		return Math.sqrt(re*re + im*im);
+		return re*re + im*im;
 	}
 
 	/** Adderar det komplexa talet c till detta tal */
