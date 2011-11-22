@@ -1,8 +1,11 @@
 import java.awt.Color;
+import java.util.ArrayList;
+
 import se.lth.cs.ptdc.fractal.MandelbrotGUI;
 
 public class Generator {
-	public static final int DEFAULT_ITERATIONS = 200;
+	public static final int DEFAULT_ITERATIONS = 200,
+							MAX_COLOR = 255;
 	
 	public Generator() { }
 	
@@ -13,17 +16,17 @@ public class Generator {
 		if (!extra.equals("")) {
 			iterations = Integer.parseInt(gui.getExtraText());
 		}
-		Color[] colors = new Color[iterations];
-		for (int i = 0; i < colors.length; i++) {
-			int f = i + 50;
-			int[] c_tuple;
-			switch(i % 3){
-				case 0: c_tuple = new int[]{f, (int)f/2, (int)Math.sqrt(f)}; break;
-				case 1: c_tuple = new int[]{(int)Math.sqrt(f),f,(int)f/2}; break;
-				case 2: c_tuple = new int[]{(int)f/2,(int)Math.sqrt(f),f}; break;
-				default: c_tuple = new int[]{0,0,0};
+		ArrayList<Color> colors = new ArrayList<Color>(MAX_COLOR);
+		int[][] palette = { { 255, 0, 0 }, { 0, 255, 0 }, { 0, 0, 255 } };
+		int c_iterations = MAX_COLOR/palette.length;
+		for (int j = 0; j < palette.length; j++) {
+			int dr = Math.abs((palette[j][0]-((j+1 < palette.length - 1) ? palette[j+1][0] : 0))/c_iterations),
+				dg = Math.abs((palette[j][1]-((j+1 < palette.length - 1) ? palette[j+1][1] : 0))/c_iterations),
+				db = Math.abs((palette[j][2]-((j+1 < palette.length - 1) ? palette[j+1][2] : 0))/c_iterations);
+			for (int i = 0; i < c_iterations; i++) {
+				System.out.println(i*dr + " " + i*dg + " " + i*db);
+				colors.add(new Color(i*dr,i*dg,i*db));
 			}
-			colors[colors.length-i-1] = new Color(c_tuple[0],c_tuple[1],c_tuple[2]);
 		}
 		
 		int resolution = MandelbrotGUI.RESOLUTION_VERY_HIGH / gui.getResolution();
@@ -44,7 +47,7 @@ public class Generator {
 					z.add(c);
 					if(z.getAbs2() > 4){
 						if (gui.getMode() == MandelbrotGUI.MODE_COLOR) {
-							color = colors[k];
+							color = colors.get((MAX_COLOR/iterations)*k);
 						} else {
 							color = Color.white;
 						}
