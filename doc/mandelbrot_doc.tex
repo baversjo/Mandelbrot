@@ -32,26 +32,25 @@ Johan Bäversjö, C11 (dic11jba@student.lu.se)}
 \newpage
 \setcounter{page}{1}
 \section{Bakgrund}
-Uppgiften består i att skapa en Mandelbrots-figur. Vi ska till en börjar skapa en klass som hanterar komplexa tal och därigenom skapa ett komplext tal-plan som i sin tur skall efter olika beräkningar, bilda Mandelbrotsfiguren. Vi har fått ett färdigt UI att jobba med där vi behöver implementera lite olika funktioner som: Zoomning, återställning av figuren och målning figuren.
-Vi skall dessutom ge stöd till inställningar: Med eller utan färg, upplösning och ett fält med extra inställningar som kan vara lite vad som helst.
-
-Så här kommer ett lopp att se ut:
+Uppgiften består i att skapa en Mandelbrots-figur. Vi ska till en börjar skapa en klass som hanterar komplexa tal och därigenom skapa ett komplext tal-plan som i sin tur skall efter olika beräkningar, bilda Mandelbrotsfiguren. Vi har fått ett färdigt UI att jobba med där vi behöver implementera lite olika funktioner som: zoomning, återställning av figuren och målning figuren.
+\newline
+Vi skall dessutom ge stöd till inställningar: med eller utan färg, upplösning och ett fält med extra inställningar som kan vara lite vad som helst.
+\newline
+\newline
+Så här kommer en Mandelbrotsfigur att se ut:
 \begin{center}
-%\includegraphics[scale=0.29]{turtle_race.png}
+\includegraphics[scale=0.29]{mandelbrot_print_1.jpg}
 \end{center}
-Längst ner och högst upp på bilden kan start- respektive mållinje ses. De två lodräta linjerna representerar de sköldpaddor som tävlar mot varandra.
-
-Fokus i uppgiften ligger på hur programmet skall utformas snarare än vad som utförs. 
-
+ 
 \section{Modell}
-Modellen av loppet innehåller följande klasser:
+Modellen av programmet innehåller följande klasser:
 
 
 \begin{tabular}{lp{8cm}}
-\code{TurtleRace} & Innehåller \code{main}-metoden som initierar alla objekt som behövs för att genomföra ett lopp. \\
-\code{Turtle} & Klass som beskriver en Turtle i planet. \\
-\code{RaceTrack} & Klass som beskriver en banas utseende, är oberoende av vilken typ av objekt som tävlar. \\
-\code{RacingEvent} & Beskriver en tävling. Håller reda på bana samt deltagare \\
+\code{Complex} & Klass som beskriver ett Komplext tal i planet \\
+\code{TestComplex} & Klass som beskriver ett unit-test för klassen \code{Complex} \\
+\code{Mandelbrot} & Innehåller \code{main} metoden som skapar det färdigställda GUI:t och hanterar kommandon \\
+\code{Generator} & Innehåller ett antal metoder som genererar det komplexa tal-planet och målar ut en figur beroende på om talet är inom Mandelbrots-mängden eller inte \\
 
 \end{tabular}
 
