@@ -3,17 +3,19 @@ import java.util.ArrayList;
 
 import se.lth.cs.ptdc.fractal.MandelbrotGUI;
 
-/** Render a mandlebrot in the imi**/
+/** Render a mandlebrot in the complex plane */
 public class Generator {
 	public static final int DEFAULT_ITERATIONS = 200,
 							MAX_COLOR = 255,
 							LIMIT_SQUARED = (int) Math.pow(2,2);
 	
-	//Generate a color spectrum. 
-	//Do this in a static block to avoid regenerating the color set every object initiation.
+	/* Generate a color spectrum. 
+	 * Do this in a static block to avoid regenerating the color set every object initiation.
+	 */
 	public static final ArrayList<Color> COLORS;
 	static{
 		ArrayList<Color> colors = new ArrayList<Color>(MAX_COLOR);
+		
 		/* 'palette' is a color scheme. It iterates from the first rgb color
 		 * and adds the colors in between to the ArrayList called 'colors'
 		 */
@@ -26,18 +28,20 @@ public class Generator {
 		/* The color will iterate 'c_iterations' amount of times before reaching the next color.
 		 * Example: 255(5-1) = 63.75. It will go change its value 127 times from 
 		 * 255, 0, 0 before reaching the next color 0, 255, 0
-		*/
+		 */
 		double c_iterations = (double)MAX_COLOR/(palette.length-1); 
 		for (int j = 0; j < palette.length - 1; j++) {
 			Color c0 = palette[j],
 				  c1 = palette[j+1];
+			
 			// The red, green and blue change-factors from one color to the next.
 			double dr = (c1.getRed() - c0.getRed())/c_iterations,
 				   dg = (c1.getGreen() - c0.getGreen())/c_iterations,
 				   db = (c1.getBlue() - c0.getBlue())/c_iterations;
 			
-			// Add 'c_iteration' amount of colors to the 'colors'-List. 
-			// Start with the old color and gradually change it to the new color.
+			/* Add 'c_iteration' amount of colors to the 'colors'-List. 
+			 * Start with the old color and gradually change it to the new color.
+			 */
 			for (int i = 0; i < c_iterations; i++) {
 				colors.add(new Color(
 						c0.getRed() + (int)(i*dr), 
@@ -49,21 +53,26 @@ public class Generator {
 		COLORS = colors;
 	}
 	
+	/** Draw an image in the window gui */
 	public void render(MandelbrotGUI gui) {
-		//disable GUI input during rendering (might take a while)
+		
+		// Disable GUI input during rendering (might take a while)
 		gui.disableInput();
 		
-		//Get number of iterations from extra parameter field if available
-		//Default is DEFAULT_ITERATIONS
+		/* Get number of iterations from extra parameter field if available
+		 * Default is DEFAULT_ITERATIONS
+		 */
 		String extra = gui.getExtraText();
 		int iterations = DEFAULT_ITERATIONS;
 		if (!extra.equals("")) {
 			iterations = Integer.parseInt(gui.getExtraText());
 		}
 		
+		boolean colorMode = gui.getMode() == MandelbrotGUI.MODE_COLOR;
+
 		//calculate resolution ratio based on user preference in GUI 
 		int resolution = MandelbrotGUI.RESOLUTION_VERY_HIGH / gui.getResolution();
-		
+
 		/* With this ratio, calculate grid size. 
 		 * While the number of pixels on the grid are the same regardless of resolution, 
 		 * the number of points we plot on should vary
@@ -71,17 +80,19 @@ public class Generator {
 		int width = gui.getWidth()/resolution;
 		int height = gui.getHeight()/resolution;
 		
+		
 		//Get complex plane
-		Complex[][] complex = mesh(gui.getMinimumReal(), gui.getMaximumReal(),
+		Complex[][] complexMatrix = mesh(gui.getMinimumReal(), gui.getMaximumReal(),
 								   gui.getMinimumImag(), gui.getMaximumImag(),
 								   width, height);
 		
 		//Render the actual picture (matrix with color objects)
 		Color[][] picture = new Color[height][width];
+		
 		//Go through all complex number (left to right, top to bottom)
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				Complex c = complex[y][x];
+				Complex c = complexMatrix[y][x];
 				Color color = Color.black;
 				
 				/* Run the mandelbrot algorithm with a 
@@ -91,13 +102,14 @@ public class Generator {
 				 * the complex diverge (if color mode is enabled).
 				 * If color mode is disabled,
 				 * complex numbers not within the set will be white.
-				*/
+				 */
 				Complex z = new Complex(0,0);
 				for (int k = 0; k < iterations; k++) {
 					z.mul(z);
 					z.add(c);
 					if(z.getAbs2() > LIMIT_SQUARED){
-						if (gui.getMode() == MandelbrotGUI.MODE_COLOR) {
+						if (colorMode) {
+							
 							/* COLORS is MAX_COLOR long. 
 							 * Because the number of iterations can vary,
 							 * scale k to fit in the color set.
@@ -112,17 +124,22 @@ public class Generator {
 				picture[y][x] = color;
 			}
 		}
-		//insert the data to the GUI and release input lock.
+		
+		/* Insert the data to the GUI and release input lock. Start with the upper-left complex number in the plane and 
+		 * gradually change it to the lower-right complex number.
+		 * Add all complex numbers for each pixel in between.
+		*/
 		gui.putData(picture, resolution, resolution);
 		gui.enableInput();
 	}
 	
-	// Generate and returns a plane of complex numbers.
+	/** Generate and returns a plane of complex numbers in the form of a matrix. */
 	private Complex[][] mesh(double minRe, double maxRe, 
 								double minIm, double maxIm, 
 								int width, int height) 
 	{
 		Complex[][] complex = new Complex[height][width];
+		
 		/* Calculate the change-factor per pixel for the real and 
 		 * imaginary part of the complex plane.
 		 */

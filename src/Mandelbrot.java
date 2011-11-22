@@ -10,7 +10,6 @@ public class Mandelbrot {
 			switch (gui.getCommand()) {
 				case MandelbrotGUI.RENDER:
 					//reset and render mandelbrot
-					gui.resetPlane();
 					g.render(gui);
 					rendered = true;
 					break;
