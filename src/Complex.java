@@ -1,28 +1,32 @@
 public class Complex {
 	private double re,im;
+
+	/** Create a complex variable with real part re and imaginary part im **/
 	public Complex(double re, double im){
 		this.re = re;
 		this.im = im;
 	}
+	/** Get real part **/
 	public double getRe(){
 		return re;
 	}
+	/** Get imaginary part **/
 	public double getIm(){
 		return im;
 	}
 
-	/** Tar reda på talets absolutbelopp i kvadrat */
+	/** Get absolute value squared */
 	public double getAbs2(){
 		return re*re + im*im;
 	}
 
-	/** Adderar det komplexa talet c till detta tal */
+	/** Add the complex number c with this complex*/
 	public void add(Complex c){
 		re += c.re;
 		im += c.im;
 	}
 
-	/** Multiplicerar detta tal med det komplexa talet c */
+	/** Add the complex number c with this complex */
 	public void mul(Complex c){
 		double re = this.re,
 			   im = this.im,
