@@ -64,7 +64,7 @@ public class Generator {
 		int width = gui.getWidth()/resolution;
 		int height = gui.getHeight()/resolution;
 		
-		//get complex talplan
+		//get complex plane
 		Complex[][] complex = mesh(gui.getMinimumReal(), gui.getMaximumReal(),
 								   gui.getMinimumImag(), gui.getMaximumImag(),
 								   width, height);
