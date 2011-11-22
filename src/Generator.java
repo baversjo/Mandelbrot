@@ -16,16 +16,31 @@ public class Generator {
 		if (!extra.equals("")) {
 			iterations = Integer.parseInt(gui.getExtraText());
 		}
+		
 		ArrayList<Color> colors = new ArrayList<Color>(MAX_COLOR);
-		int[][] palette = { { 255, 0, 0 }, { 0, 255, 0 }, { 0, 0, 255 } };
-		int c_iterations = MAX_COLOR/palette.length;
-		for (int j = 0; j < palette.length; j++) {
-			int dr = Math.abs((palette[j][0]-((j+1 < palette.length - 1) ? palette[j+1][0] : 0))/c_iterations),
-				dg = Math.abs((palette[j][1]-((j+1 < palette.length - 1) ? palette[j+1][1] : 0))/c_iterations),
-				db = Math.abs((palette[j][2]-((j+1 < palette.length - 1) ? palette[j+1][2] : 0))/c_iterations);
+		/* Palette is a color scheme. It iterates from the first rgb color
+		 * and adds the colors in between to the ArrayList called 'colors'
+		 */
+		Color[] palette = { new Color(255, 0, 0), // The color scheme
+							new Color(0, 255, 0 ),
+							new Color(0, 0, 255 ),
+							new Color(255, 255, 0),
+							new Color(0,0,0)};
+	
+		/* The color will iterate 'c_iterations' amount of times before reaching the next color.
+		 * Example: 255(3-1) ~= 127. It will go change its value 127 times from 255, 0, 0 before reaching the next color 0, 255, 0
+		*/
+		double c_iterations = MAX_COLOR/(palette.length-1); 
+		for (int j = 0; j < palette.length - 1; j++) {
+			Color c0 = palette[j],
+				  c1 = palette[j+1];
+			// The red, green and blue changefactors from one color to another.
+			double dr = (c1.getRed() - c0.getRed())/c_iterations,
+				   dg = (c1.getGreen() - c0.getGreen())/c_iterations,
+				   db = (c1.getBlue() - c0.getBlue())/c_iterations;
 			for (int i = 0; i < c_iterations; i++) {
-				System.out.println(i*dr + " " + i*dg + " " + i*db);
-				colors.add(new Color(i*dr,i*dg,i*db));
+				// Add 'c_iteration' amount of colors to the 'colors' List. Start with the old color and gradually change it to the new color.
+				colors.add(new Color(c0.getRed() + (int)(i*dr), c0.getGreen() + (int)(i*dg), c0.getBlue() + (int)(i*db)));
 			}
 		}
 		
