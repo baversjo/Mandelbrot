@@ -67,13 +67,11 @@ Nedan följer en beskrivning till flödet i programmet:
 \end{itemize}
 
 \section{Brister och kommentarer}
-Programmet kan endast hantera ett lopp mellan två stycken sköldpaddor i dess nuvarande utförande. För att kunna lägga till sköldpaddor behövs stora redigeringar i koden göras.
+Istället för att användaren manuellt behöver specifiera antalet iterationer, som behövs göras vid mycket inzoomning hade programmet kunna sköta detta. Antalet iterationer skulle kunna vara en funktion av zoom nivån för att alltid ge en högupplöst bild.
 
-En förbättring hade varit att använda en vektor istället för dynamiskt kunna bestämma antalet skäldpaddor.
+De färger som används i färgläget hade användaren själv kunnat specifiera med en färgväljare i gränssnittet. Man hade kunnat välja ett obegränsat antal färger och se direkt hur de blandats i ett spektrum i GUI:t.
 
-Båda sköldpaddorna har okända namn, vilket medför att det inte är möjligt att ta reda på vilken sköldpadda som vunnit bortsett från det visuella resultatet. 
-
-För att kunna koppla ihop det här programmet med andra system hade vi till exempel låtit användaren specifiera alla sköldpaddor som parametrar för programmet vid uppstart. Programmet hade sedan skrivit ut namnet på vinnaren.
+För att kunna koppla ihop det här programmet med andra system hade vi velat att programmet skulle ha ett CLI. Detta hade gjort det enkelt att koppla ihop vårt program med andra system. Programmet skulle kunna ta fokuspunkt, zoom och antal iterationer som inparametrar och en JPG bild som output. Detta hade varit ett enkelt tilläg till programmet då det koden inte behövs modifieras mycket. En ny GUI implementation som emulerar ett gui hade behövts skrivas, samt kod för att hantera input/output.
 
 
 \section{Programlistor}
