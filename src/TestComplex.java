@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-
+/** Unit tests for the class Complex using JUnit**/
 public class TestComplex {
 	private Complex c,c2;
 	
