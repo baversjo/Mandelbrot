@@ -24,7 +24,8 @@ public class Generator {
 							new Color(0,0,0)};		// BLACK
 	
 		/* The color will iterate 'c_iterations' amount of times before reaching the next color.
-		 * Example: 255(5-1) = 63.75. It will go change its value 127 times from 255, 0, 0 before reaching the next color 0, 255, 0
+		 * Example: 255(5-1) = 63.75. It will go change its value 127 times from 
+		 * 255, 0, 0 before reaching the next color 0, 255, 0
 		*/
 		double c_iterations = (double)MAX_COLOR/(palette.length-1); 
 		for (int j = 0; j < palette.length - 1; j++) {
@@ -35,9 +36,14 @@ public class Generator {
 				   dg = (c1.getGreen() - c0.getGreen())/c_iterations,
 				   db = (c1.getBlue() - c0.getBlue())/c_iterations;
 			
-			// Add 'c_iteration' amount of colors to the 'colors'-List. Start with the old color and gradually change it to the new color.
+			// Add 'c_iteration' amount of colors to the 'colors'-List. 
+			// Start with the old color and gradually change it to the new color.
 			for (int i = 0; i < c_iterations; i++) {
-				colors.add(new Color(c0.getRed() + (int)(i*dr), c0.getGreen() + (int)(i*dg), c0.getBlue() + (int)(i*db)));
+				colors.add(new Color(
+						c0.getRed() + (int)(i*dr), 
+						c0.getGreen() + (int)(i*dg), 
+						c0.getBlue() + (int)(i*db)
+				));
 			}
 		}
 		COLORS = colors;
@@ -58,13 +64,14 @@ public class Generator {
 		//calculate resolution ratio based on user preference in GUI 
 		int resolution = MandelbrotGUI.RESOLUTION_VERY_HIGH / gui.getResolution();
 		
-		//with this ratio, calculate grid size. 
-		//While the number of pixels on the grid are the same regardless of resolution, the number of points
-		//we plot on should vary
+		/* With this ratio, calculate grid size. 
+		 * While the number of pixels on the grid are the same regardless of resolution, 
+		 * the number of points we plot on should vary
+		 */
 		int width = gui.getWidth()/resolution;
 		int height = gui.getHeight()/resolution;
 		
-		//get complex plane
+		//Get complex plane
 		Complex[][] complex = mesh(gui.getMinimumReal(), gui.getMaximumReal(),
 								   gui.getMinimumImag(), gui.getMaximumImag(),
 								   width, height);
@@ -77,10 +84,13 @@ public class Generator {
 				Complex c = complex[y][x];
 				Color color = Color.black;
 				
-				/*	Run the mandelbrot algorithm with a maximum of "iterations" times and set color.
-					If the complex is within the mandelbrot set, the color is black.
-					Else the color is based on the how fast the complex diverge (if color mode is enabled).
-					If color mode is disabled, complex numbers not within the set will be white.
+				/* Run the mandelbrot algorithm with a 
+				 * maximum of "iterations" times and set color.
+				 * If the complex is within the mandelbrot set, the color is black.
+				 * Else the color is based on the how fast 
+				 * the complex diverge (if color mode is enabled).
+				 * If color mode is disabled,
+				 * complex numbers not within the set will be white.
 				*/
 				Complex z = new Complex(0,0);
 				for (int k = 0; k < iterations; k++) {
@@ -88,8 +98,10 @@ public class Generator {
 					z.add(c);
 					if(z.getAbs2() > LIMIT_SQUARED){
 						if (gui.getMode() == MandelbrotGUI.MODE_COLOR) {
-							//COLORS is MAX_COLOR long. Because the number of iterations can vary,
-							// scale k to fit in the color set.
+							/* COLORS is MAX_COLOR long. 
+							 * Because the number of iterations can vary,
+							 * scale k to fit in the color set.
+							 */
 							color = COLORS.get((MAX_COLOR/iterations)*k);
 						} else {
 							color = Color.white;
@@ -106,13 +118,19 @@ public class Generator {
 	}
 	
 	// Generate and returns a plane of complex numbers.
-	private Complex[][] mesh(double minRe, double maxRe, double minIm, double maxIm, int width, int height) {
+	private Complex[][] mesh(double minRe, double maxRe, 
+								double minIm, double maxIm, 
+								int width, int height) 
+	{
 		Complex[][] complex = new Complex[height][width];
-		// Calculate the change-factor per pixel for the real & imaginary part of the complex plane.
+		/* Calculate the change-factor per pixel for the real and 
+		 * imaginary part of the complex plane.
+		 */
 		double rePart = (maxRe - minRe) / width;
 		double imPart = (maxIm - minIm) / height;
 		
-		/* Start with the upper-left complex number in the plane and gradually change it to the lower-right complex number.
+		/* Start with the upper-left complex number in the plane and 
+		 * gradually change it to the lower-right complex number.
 		 * Add all complex numbers for each pixel in between.
 		*/
 		for (int y = 0; y < height; y++) {
