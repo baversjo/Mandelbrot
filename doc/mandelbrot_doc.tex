@@ -32,7 +32,7 @@ Johan Bäversjö, C11 (dic11jba@student.lu.se)}
 \newpage
 \setcounter{page}{1}
 \section{Bakgrund}
-Uppgiften består i att skapa en Mandelbrots-figur. Vi ska till en börjar skapa en klass som hanterar komplexa tal och därigenom skapa ett komplext talplan som i sin tur skall efter olika beräkningar, bilda Mandelbrotsfiguren. Vi har fått ett färdigt GUI att jobba med där vi behöver implementera lite olika funktioner som: zoomning, återställning av figuren och målning av figuren.
+Uppgiften består i att skapa en Mandelbrots-figur. Vi ska till en början skapa en klass som hanterar komplexa tal och därigenom skapa ett komplext talplan som i sin tur skall efter olika beräkningar, bilda Mandelbrotsfiguren. Vi har fått ett färdigt GUI att jobba med där vi behöver implementera lite olika funktioner som: zoomning, återställning av figuren och målning av figuren.
 \newline
 Vi skall dessutom ge stöd till inställningar: med eller utan färg, upplösning och ett fält med extra inställningar som kan vara lite vad som helst.
 \newline
@@ -59,14 +59,14 @@ Nedan följer en beskrivning till flödet i programmet:
 
 \begin{itemize}
 \item Det färdiga GUI:t av typen \code{MandelbrotGUI} initialiseras och ritas ut i ett fönster.
-\item I \code{Mandelbrot} klassens \code{main} metod körs en evig loop som väntar på innmatning från GUI:t; Render, Zoom, Reset och Quit.
+\item I \code{Mandelbrot} klassens \code{main} metod körs en evig loop som väntar på inmatning från GUI:t; Render, Zoom, Reset och Quit.
 \item Vid ett knapptryck på render-knappen så sker huvuddelen av programmet. Event-loopen i \code{main}-metoden når \code{MandelbrotGUI.RENDER} fallet (case) och där kallas \code{Generator}-klassens render metod. I denna metod kommer mandelbrotfiguren ritas.
 \begin{itemize}
 	\item I \code{Generator}-klassen genereras ett färgspektrum när klassen först laddas. Detta sker i ett \code{static} block eftersom det endast behöver ske en gång under programmets livstid. Vi genererar färgerna utifrån en palett som hårdkodad från början. \newline
-	Färgerna i vårt färgspektrum genereras så att de går från första färgen i paletten till nästa färg. Vårt färgspektrum består av 255 färger och \code{render()} metoden kommer använda dessa beroende på hastigheten ett tal går utanför mandelbråtsmängden. Algoritmen för detta beskrivs i detalj i klassen \code{Generator}.
+	Färgerna i vårt färgspektrum genereras så att de går från första färgen i paletten till nästa färg. Vårt färgspektrum består av 255 färger och \code{render()} metoden kommer använda dessa beroende på hastigheten ett tal går utanför mandelbrotsmängden. Algoritmen för detta beskrivs i detalj i klassen \code{Generator}.
 	\item I \code{render()}-metoden avaktiveras först GUI:t eftersom denna metod kan ta lång tid. I slutet av metoden aktiveras det igen. Efter detta hämtas värden för inställningar såsom upplösning, antal iterationer för mandelbrotalgoritmen och färginställningar.
-	\item Nu kallas \code{mesh()}-metoden för att generera ett komplext talplan där värderna ändras successivt från minsta reella och största imaginära högst upp till vänster mot största reella och minsta imaginära längst ner till höger i det komplexa talplanet.
-	\item Efter detta går programmet igenom samtliga komplexa tal och kollar ifall de är inom mandelbrotsmängden. För att detta programmet inte ska köras i all evighet bestämmer vi att ett komplex tal är inom mandelbrotsmängden ifall det komplexa talets absolutvärde divergerar med 2 eller fler längdenheter. Ifall ett tal är inom mandelbrotsmängden så får den en svart färg i figuren med samma koordinater. Annars tilldelas en vit eller färgad färg beroende på användarens inställningar.
+	\item Nu kallas \code{mesh()}-metoden för att generera ett komplext talplan där värdena ändras successivt från minsta reella och största imaginära högst upp till vänster mot största reella och minsta imaginära längst ner till höger i det komplexa talplanet.
+	\item Efter detta går programmet igenom samtliga komplexa tal och kollar ifall de är inom mandelbrotsmängden. För att programmet inte ska köras i all evighet bestämmer vi att ett komplex tal är inom mandelbrotsmängden ifall det komplexa talets absolutvärde divergerar med 2 eller fler längdenheter. Ifall ett tal är inom mandelbrotsmängden så får den en svart färg i figuren med samma koordinater. Annars tilldelas en vit eller färgad färg beroende på användarens inställningar.
 \end{itemize}
 \item Vid en inzoomning i bilden så körs endast \code{render()}-metoden på nytt. \code{MandelbrotGUI}:t hanterar inzoomning själv och vår \code{render()}-metod utnyttjar dessa värden.
 \item Vid ett knapptryck på reset-knappen så återställs både inzoomning och figuren i det grafiska gränssnittet.
@@ -74,11 +74,11 @@ Nedan följer en beskrivning till flödet i programmet:
 \end{itemize}
 
 \section{Brister och kommentarer}
-Istället för att användaren manuellt behöver specifiera antalet iterationer, som behövs göras vid mycket inzoomning hade programmet kunna sköta detta. Antalet iterationer skulle kunna vara en funktion av zoom nivån för att alltid ge en högupplöst bild.
+Istället för att användaren manuellt behöver specificera antalet iterationer, som behövs göras vid mycket inzoomning hade programmet kunna sköta detta. Antalet iterationer skulle kunna vara en funktion av zoom nivån för att alltid ge en högupplöst bild.
 
-De färger som används i färgläget hade användaren själv kunnat specifiera med en färgväljare i gränssnittet. Man hade kunnat välja ett obegränsat antal färger och se direkt hur de blandats i ett spektrum i GUI:t.
+De färger som används i färgläget hade användaren själv kunnat specificera med en färgväljare i gränssnittet. Man hade kunnat välja ett obegränsat antal färger och se direkt hur de blandats i ett spektrum i GUI:t.
 
-För att kunna koppla ihop det här programmet med andra system hade vi velat att programmet skulle ha ett CLI. Detta hade gjort det enkelt att koppla ihop vårt program med andra system. Programmet skulle kunna ta fokuspunkt, zoom och antal iterationer som inparametrar och en JPG bild som output. Detta hade varit ett enkelt tilläg till programmet då det koden inte behövs modifieras mycket. En ny GUI implementation som emulerar ett gui hade behövts skrivas, samt kod för att hantera input/output.
+För att kunna koppla ihop det här programmet med andra system hade vi velat att programmet skulle ha ett CLI. Detta hade gjort det enkelt att koppla ihop vårt program med andra system. Programmet skulle kunna ta fokuspunkt, zoom och antal iterationer som inparametrar och en JPG bild som output. Detta hade varit ett enkelt tilläg till programmet då koden inte behöver modifieras mycket. En ny GUI implementation som emulerar ett GUI hade behövts skrivas, samt kod för att hantera input/output.
 \newline
 \newline
 \begin{center}
