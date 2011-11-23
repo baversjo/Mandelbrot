@@ -114,7 +114,7 @@ public class Generator {
 							 * Because the number of iterations can vary,
 							 * scale k to fit in the color set.
 							 */
-							color = COLORS.get((MAX_COLOR/iterations)*k);
+							color = COLORS.get((int)((MAX_COLOR/(double)iterations)*k));
 						} else {
 							color = Color.white;
 						}
