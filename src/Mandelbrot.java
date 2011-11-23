@@ -9,7 +9,7 @@ public class Mandelbrot {
 			//wait for GUI command
 			switch (gui.getCommand()) {
 				case MandelbrotGUI.RENDER:
-					//reset and render mandelbrot
+					//render mandelbrot
 					g.render(gui);
 					rendered = true;
 					break;
